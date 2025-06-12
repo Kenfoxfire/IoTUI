@@ -1,0 +1,43 @@
+<mat-card>
+    <mat-card-title><h1>Login</h1></mat-card-title>
+    <mat-card-content>
+        <form [formGroup]="form" (ngSubmit)="submit()">
+            <p>
+                <mat-form-field>
+                    <mat-icon matPrefix>person</mat-icon>
+                    <input type="text" matInput placeholder="Username"
+                        formControlName="username"
+                        aria-invalid="false"
+                        aria-required="false"
+                        autocomplete="username"
+                        >
+                </mat-form-field>
+            </p>
+
+            <p>
+                <mat-form-field>
+                    <mat-icon matPrefix>lock</mat-icon>
+                    <input type="password" matInput placeholder="Password"
+                        formControlName="password"
+                        autocomplete="current-password"
+                        aria-invalid="false"
+                        aria-required="false"
+                        >
+                </mat-form-field>
+            </p>
+
+            @if(error){
+            <p class="error">
+                {{ error }}
+            </p>
+            }
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <button [disabled]="form.invalid" class="button-login" type="button" mat-button>Login</button>
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a class="button" routerLink="/auth/register" mat-button>Go to Register</a>
+            </div>
+
+        </form>
+    </mat-card-content>
+</mat-card>
