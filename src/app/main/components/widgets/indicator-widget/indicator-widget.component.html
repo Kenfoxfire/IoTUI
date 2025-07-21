@@ -1,0 +1,15 @@
+<mat-card appearance="filled">
+    <mat-card-header>
+        <mat-card-title> {{data.config.selectedDevice.name}}</mat-card-title>
+        <mat-card-subtitle>Herding group</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions>
+        <span class="material-icons ms-2 me-3">
+            login
+        </span>
+        <mat-slide-toggle matTooltip="Activate"
+            [checked]="data.value"
+            [disabled]="isUpdating()"
+            (change)="onToggleChange($event)"></mat-slide-toggle>
+    </mat-card-actions>
+</mat-card>

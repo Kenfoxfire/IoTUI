@@ -1,0 +1,105 @@
+<h1>New Device</h1>
+<div class="container">
+
+    <div>
+        <form [formGroup]="deviceForm" class="devices-form">
+            <mat-form-field appearance="fill">
+                <mat-label>DID</mat-label>
+                <input matInput formControlName="did">
+                @if (deviceForm.get('did')?.invalid &&
+                deviceForm.get('did')?.touched) {
+                <mat-error>
+                    DID is required
+                </mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name">
+                @if (deviceForm.get('name')?.invalid &&
+                deviceForm.get('name')?.touched) {
+                <mat-error>
+                    Name is required
+                </mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Template</mat-label>
+                <mat-select formControlName="template">
+                    @for (template of templates; track $index) {
+                    <mat-option [value]="template">{{ template }}</mat-option>
+                    }
+
+                </mat-select>
+                @if (deviceForm.get('template')?.invalid &&
+                deviceForm.get('template')?.touched) {
+                <mat-error>
+                    Please select a Template
+                </mat-error>
+                }
+            </mat-form-field>
+        </form>
+    </div>
+
+    <button matButton="filled" type="button"
+        (click)="submitForm()">Save</button>
+</div>
+
+<hr>
+
+<h2>Devices</h2> @if (isLoadingData()) {
+<div class="inline-spinner-container">
+    <mat-progress-spinner
+        mode="indeterminate"
+        [diameter]="24">
+    </mat-progress-spinner>
+</div>
+}@else{
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="did">
+        <th mat-header-cell *matHeaderCellDef> DID </th>
+        <td mat-cell *matCellDef="let element"> {{element.did}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="template">
+        <th mat-header-cell *matHeaderCellDef> Template </th>
+        <td mat-cell *matCellDef="let element"> {{element.template}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="actions-col"> actions </th>
+        <td mat-cell *matCellDef="let element" class="actions-col">
+            <div class="actions-content">
+
+                <button matMiniFab color="warn" matTooltip="Delete"
+                    (click)="deleteDevice(element)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+
+                <mat-slide-toggle matTooltip="Activate"
+                    [checked]="element.selected"
+                    [disabled]="isUpdatingToggle()[element.did]"
+                    (change)="onToggleChange($event, element)"></mat-slide-toggle>
+
+            </div>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<mat-paginator [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+    aria-label="Select page of periodic elements">
+</mat-paginator>
+}

@@ -1,4 +1,4 @@
-
+@use '@angular/material' as mat;
 // html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
@@ -18,4 +18,18 @@ select:-webkit-autofill:focus {
     transition: background-color 5000s ease-in-out 0s !important;
     background-color: var(--mat-sys-surface-variant) !important;
     font-size: x-large;
+}
+
+
+html {
+    color-scheme: dark;
+    @include mat.theme((
+        color: mat.$cyan-palette,
+    ))
+}
+
+html.light-mode {
+    color-scheme: light;
+    @include mat.theme((color: mat.$cyan-palette,
+        ))
 }

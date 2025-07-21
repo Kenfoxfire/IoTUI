@@ -1,0 +1,43 @@
+.devices-form {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+}
+
+/* Hace que la columna de acciones sea más delgada */
+.actions-col {
+    width: 150px;
+    min-width: 80px;
+    max-width: 150px;
+    padding: 0;
+    text-align: right;
+    /* Opcional: alinear íconos a la derecha */
+
+
+    .actions-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 0.5rem;   }
+}
+
+/* Ajusta el ancho de otras columnas dinámicamente */
+table {
+    width: 100%;
+    table-layout: fixed;
+    /* importante para que el ancho sea respetado */
+}
+
+/* Contenedor para el spinner del toggle individual */
+.inline-spinner-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    /* Ancho aproximado del mat-slide-toggle */
+    height: 24px;
+    /* Altura aproximada del track del mat-slide-toggle */
+}

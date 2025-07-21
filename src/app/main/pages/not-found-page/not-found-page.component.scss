@@ -1,0 +1,126 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    // Fondo principal: Usamos el color de superficie del tema Material, un gris muy claro.
+    background-color: var(--mat-sys-background);
+    text-align: center;
+    font-family: Roboto, "Helvetica Neue", sans-serif; // Asegura la fuente de Material
+}
+
+.text-center {
+    max-width: 600px;
+    margin: auto;
+    padding: 2.5rem;
+    // Fondo del contenedor de texto: Usamos el color de superficie (normal)
+    background-color: var(--mdc-surface-color);
+    border-radius: 0.75rem;
+    // Sombra suave que se integra con el sistema de elevación de Material
+    box-shadow: var(--mdc-elevation-box-shadow-1);
+}
+
+h1 {
+    font-size: 6.5rem; // Tamaño grande para el 404
+    font-weight: 700;
+    // Color primario del tema Material
+    color: var(--mat-sys-on-background);
+    margin-bottom: 0.5rem;
+    letter-spacing: -2px; // Un ligero ajuste para el número
+}
+
+p {
+    font-size: 1.25rem;
+    // Color de texto on-surface, ideal para el cuerpo de texto
+    color: var(--mat-sys-on-background);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.lead {
+    font-size: 1.6rem;
+    font-weight: 400;
+    // Color on-surface un poco más oscuro
+    color: var(--mat-sys-on-background);
+}
+
+mat-card {
+    width: 100%;
+    max-width: 450px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 1rem;
+    // Fondo de la tarjeta: Usamos el color de superficie (normal)
+    background-color: var(--mdc-surface-color);
+    // Sombra más pronunciada para la tarjeta, indicando elevación
+    box-shadow: var(--mdc-elevation-box-shadow-4);
+    transition: transform 0.3s ease-in-out;
+
+    &:hover {
+        transform: translateY(-5px); // Efecto sutil de elevación al pasar el ratón
+        box-shadow: var(--mdc-elevation-box-shadow-8); // Sombra más intensa al hover
+    }
+}
+
+mat-card-content p {
+    font-size: 1.1rem;
+    color: var(--mat-sys-on-background);
+}
+
+// Estilos para el botón de Material
+button[mat-raised-button] {
+    min-width: 200px;
+    font-size: 1.15rem;
+    padding: 0.8rem 1.8rem;
+    // Los colores primarios del botón son gestionados por el tema de Material
+    // No necesitas especificar background-color ni color aquí si usas color="primary"
+    // y has configurado tu tema Material correctamente.
+    font-weight: 500; // Un poco más de peso para el texto del botón
+    letter-spacing: 0.5px;
+
+    mat-icon {
+        margin-right: 0.6rem;
+        font-size: 1.3rem; // Tamaño del ícono
+    }
+}
+
+.text-muted {
+    font-size: 0.95rem;
+    // Un color más sutil, generalmente on-surface-variant
+    color: var(--mat-sys-on-background) !important;
+    margin-top: 2.5rem;
+    opacity: 0.8; // Ligeramente más transparente para un tono "muted"
+}
+
+/* Media Queries para Responsividad */
+@media (max-width: 768px) {
+    .text-center {
+        padding: 1.5rem;
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+    }
+
+    h1 {
+        font-size: 4.5rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
+    .lead {
+        font-size: 1.3rem;
+    }
+
+    mat-card {
+        margin: 1.5rem auto;
+        padding: 1.5rem;
+    }
+
+    button[mat-raised-button] {
+        min-width: unset;
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.7rem 1.2rem;
+    } }

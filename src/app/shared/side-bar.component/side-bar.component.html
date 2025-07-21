@@ -1,0 +1,83 @@
+<mat-sidenav-container class="sidenav-container" autosize>
+  <mat-sidenav
+    #sidenav
+    [mode]="'side'"
+    [(opened)]="opened"
+    [style.width.px]="opened ? 200 : 60"
+    class="sidenav">
+    <div class="d-flex flex-column h-100 w-100">
+      <div class="p-2 w-100">
+        <button mat-raised-button (click)="toggleTheme()" class="w-100">
+          <mat-icon>{{ isLight ? 'dark_mode' : 'light_mode' }}</mat-icon>
+          @if (opened) {
+          <span class="ms-2">Cambiar a {{ isLight ? 'Tema Oscuro' : 'Tema Claro'
+            }}</span>
+          }
+        </button>
+      </div>
+
+      <div class="menu-items flex-grow-1">
+        <button routerLink="home" routerLinkActive="active" mat-icon-button class="w-100">
+          <mat-icon>home</mat-icon>
+          @if (opened) {
+          <span class="ms-2">Inicio</span>
+          }
+        </button>
+        <button mat-icon-button class="w-100">
+          <mat-icon>settings</mat-icon>
+          @if (opened) {
+          <span class="ms-2">settings</span>
+          }
+        </button>
+        <button routerLink="devices" routerLinkActive="active" mat-icon-button class="w-100">
+          <mat-icon>settings</mat-icon>
+          @if (opened) {
+          <span class="ms-2">Devices</span>
+          }
+        </button>
+        <button routerLink="templates" routerLinkActive="active" mat-icon-button class="w-100">
+          <mat-icon>settings</mat-icon>
+          @if (opened) {
+          <span class="ms-2">Templates</span>
+          }
+        </button>
+      </div>
+
+      <div class="bottom-buttons p-2 w-100 mt-auto">
+        @if (authService.authStatus() === 'authenticated') {
+        <button mat-stroked-button color="primary" class="w-100 mb-2">
+          <mat-icon>person</mat-icon>
+          @if (opened) {
+          <span class="ms-2">{{ authService.user()?.username }}</span>
+          }
+        </button>
+        <button mat-stroked-button color="warn" class="w-100"
+          (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          @if (opened) {
+          <span class="ms-2">Logout</span>
+          }
+        </button>
+        } @else if (authService.authStatus() == 'not-authenticated') {
+        <button mat-stroked-button color="primary" class="w-100"
+          routerLink="/auth/login">
+          <mat-icon>login</mat-icon>
+          @if (opened) {
+          <span class="ms-2">Login</span>
+          }
+        </button>
+        }
+      </div>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="main-content">
+    <button mat-icon-button (click)="toggleSidenav()">
+      <mat-icon>{{ opened ? 'chevron_left' : 'menu' }}</mat-icon>
+    </button>
+    <div class="main-container p-4">
+      <router-outlet></router-outlet>
+
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

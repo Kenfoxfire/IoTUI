@@ -30,7 +30,7 @@ mat-card-content {
   padding: 16px;
   width: 400px;
   color: white;
-  background-color: red;
+  background-color: var(--mat-sys-error-container);
 }
 
 .button-register {
