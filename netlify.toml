@@ -1,5 +1,5 @@
 [build]
-  publish = "dist/kenfoxfire-crew/browser"
+  publish = "dist/IoTUI/browser"
   command = "ng build --configuration production"
 [[redirects]]
   from = "/*"
