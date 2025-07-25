@@ -1,21 +1,33 @@
-<h1>Dashboard</h1>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Widgets</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
 
-<h2>Templates</h2>
+    <div class="row">
+      @for (widget of currentDashboard.widgets; track $index) {
 
-<!-- @for( template of templates(); track template.name){
-    <app-template [template]="template"></app-template>
-} -->
+      <div [class]="`container mb-3 ${widget.column}`">
+        @switch (widget.type) {
 
-<app-indicator-widget></app-indicator-widget>
-<app-indicator-widget></app-indicator-widget>
-<app-indicator-widget></app-indicator-widget>
-<app-indicator-widget></app-indicator-widget>
-<app-indicator-widget></app-indicator-widget>
-<app-indicator-widget></app-indicator-widget>
-<app-indicator-widget></app-indicator-widget>
-<app-indicator-widget></app-indicator-widget>
-<app-indicator-widget></app-indicator-widget>
-<app-indicator-widget></app-indicator-widget>
-<app-indicator-widget></app-indicator-widget>
-<app-indicator-widget></app-indicator-widget>
-<app-indicator-widget></app-indicator-widget>
+        @case ("button") {
+        <app-button-widget></app-button-widget>
+        }
+        @case ("switch") {
+        <app-switch-widget></app-switch-widget>
+        }
+        @case ("indicator") {
+        <app-indicator-widget></app-indicator-widget>
+        }
+        @default{
+        <app-indicator-widget></app-indicator-widget>
+
+        }
+
+        }
+      </div>
+      }
+    </div>
+
+  </mat-card-content>
+</mat-card>

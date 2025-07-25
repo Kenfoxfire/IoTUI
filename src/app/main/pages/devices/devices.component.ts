@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, signal, ViewChild, AfterViewInit } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -114,13 +114,30 @@ export const ELEMENT_DATA: Device[] = [
   templateUrl: './devices.component.html',
   styleUrl: './devices.component.scss'
 })
-export class DevicesComponent implements OnInit{
-  ngOnInit(): void {
-    this.loadDevicesData()
-  }
-
+export class DevicesComponent implements OnInit, AfterViewInit { // Implement AfterViewInit
 
   _snackBar: MatSnackBar = inject(MatSnackBar)
+
+  // Usando signals para los estados de carga es una buena práctica en Angular 20+
+  isLoadingData = signal(true); // Ahora es un signal
+  isUpdatingToggle = signal<Record<string, boolean>>({}); // Ahora es un signal
+
+  displayedColumns: string[] = ['did', 'name', 'template', 'actions']
+  dataSource = new MatTableDataSource<Device>([]); // Inicializa con un array vacío
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  // ngOnInit se usa para inicializar data
+  ngOnInit(): void {
+    this.loadDevicesData();
+  }
+
+  // ngAfterViewInit se usa para interacciones con ViewChild
+  ngAfterViewInit() {
+    // Aseguramos que el paginador esté disponible antes de asignarlo
+    // Esto es crucial para cuando la data se carga inicialmente
+    this.dataSource.paginator = this.paginator;
+  }
 
   onToggleChange(event: MatSlideToggleChange, device: Device): void {
     const newSelectedValue = event.checked;
@@ -131,7 +148,7 @@ export class DevicesComponent implements OnInit{
     // Optimistic UI Update
     device.selected = newSelectedValue;
 
-    // Update the signal for the specific device's loading state
+    // Actualiza la señal para el estado de carga del dispositivo específico
     this.isUpdatingToggle.update(currentStatus => ({
       ...currentStatus,
       [device.did]: true
@@ -141,7 +158,7 @@ export class DevicesComponent implements OnInit{
       console.log(`Backend actualizado con éxito para el dispositivo DID: ${device.did}. Valor: ${newSelectedValue}`);
       this._snackBar.open(`Estado del dispositivo ${device.name} actualizado a ${newSelectedValue ? 'Activo' : 'Inactivo'}`, 'Cerrar', { duration: 2000 });
 
-      // Clear the signal for the specific device's loading state
+      // Limpia la señal para el estado de carga del dispositivo específico
       this.isUpdatingToggle.update(currentStatus => {
         const newStatus = { ...currentStatus };
         delete newStatus[device.did];
@@ -171,32 +188,23 @@ export class DevicesComponent implements OnInit{
 
     }, 1500); // Simular retraso de red
   }
+
   deleteDevice(element: Device) {
-    this.dataSource.data = this.dataSource.data.filter(i => i.did != element.did )
+    this.dataSource.data = this.dataSource.data.filter(i => i.did != element.did)
+    // Opcional: Ir a la primera página después de eliminar para evitar páginas vacías
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   loadDevicesData() {
-    this.isLoadingData.set(true); // Update signal value
-    console.log('Simulating GET request to load devices...');
+    this.isLoadingData.set(true); // Actualiza el valor del signal
+    console.log('Simulando solicitud GET para cargar dispositivos...');
     setTimeout(() => {
       this.dataSource.data = ELEMENT_DATA;
-      this.isLoadingData.set(false); // Update signal value
-      console.log('Devices loaded:', this.dataSource.data);
+      this.isLoadingData.set(false); // Actualiza el valor del signal
+      console.log('Dispositivos cargados:', this.dataSource.data);
     }, 1500);
-  }
-
-  // Using signals for loading states is a good practice in Angular 20+
-  isLoadingData = signal(true); // Now a signal
-  // For per-item loading, an object/Map is still common, but could also be a signal<Record<string, boolean>>
-  isUpdatingToggle = signal<Record<string, boolean>>({}); // Now a signal
-
-  displayedColumns: string[] = ['did', 'name', 'template', 'actions']
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
   }
 
   templates = ['template 1', 'template 2', 'template 3'];
@@ -212,13 +220,18 @@ export class DevicesComponent implements OnInit{
 
     const { did, name, template } = this.deviceForm.value as any
     if (this.deviceForm.valid) {
-      this.dataSource.data = [...this.dataSource.data, { createdTime: new Date('2025-07-11T12:00:00Z'), did, name, selected: false, templateId: 'tpl_1_chem', templateName: template, userId: 'user_kappa_174' }];
-
+      this.dataSource.data = [...this.dataSource.data, { createdTime: new Date(), did, name, selected: false, templateId: 'tpl_new', templateName: template, userId: 'user_new' }];
+      // Opcional: Ir a la última página después de añadir un nuevo dispositivo
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.lastPage();
+      }
+      this.deviceForm.reset(); // Limpiar el formulario
+      Object.keys(this.deviceForm.controls).forEach(key => {
+        this.deviceForm.get(key)?.setErrors(null);
+      });
     } else {
       console.log("tocados");
-
       this.deviceForm.markAllAsTouched();
     }
   }
-
 }

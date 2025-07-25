@@ -4,9 +4,12 @@
         <mat-card-subtitle>Herding group</mat-card-subtitle>
     </mat-card-header>
     <mat-card-actions>
-        <span class="material-icons ms-2 me-3" [class.active]="isActive()" >
-            login
-        </span>
-        <h2>{{isActive()? 'On':'Off'}}</h2>
+
+        <button matButton matTooltip="Activate"
+            [disabled]="isUpdating()"
+            (change)="onToggleChange()">
+            <span class="material-icons ms-2 me-3">
+                cyclone
+            </span></button>
     </mat-card-actions>
 </mat-card>

@@ -1,17 +1,26 @@
-import { Component, input } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import {  MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
-  selector: 'app-indicator-widget',
+  selector: 'app-button-widget',
   imports: [MatCardModule, MatButtonModule, MatSlideToggleModule],
-  templateUrl: './indicator-widget.component.html',
-  styleUrl: './indicator-widget.component.scss'
+  templateUrl: './button-widget.component.html',
+  styleUrl: './button-widget.component.scss'
 })
-export class IndicatorWidgetComponent {
-  isActive = input<boolean>(true);
-  
+export class ButtonWidgetComponent {
+  onToggleChange() {
+    console.log("call button");
+
+  }
+  isUpdating() {
+    console.log();
+
+  }
+
+
+
   data = {
     value: false,
     config: {
@@ -31,5 +40,4 @@ export class IndicatorWidgetComponent {
       class: "danger"
     }
   }
-
 }
